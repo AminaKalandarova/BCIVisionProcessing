@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+import csv
 
 # Function to process and prepare image data for neural encoding
 def prepare_image_for_neural_encoding(image_path, output_path, new_size=(64, 64)):
@@ -41,6 +42,12 @@ def prepare_image_for_neural_encoding(image_path, output_path, new_size=(64, 64)
     cv2.imwrite(output_path, edges)
     print(f"Edge-detected image saved at: {output_path}")
 
+    # Save flattened data as a .csv file
+    with open('flattened_data.csv', mode='w', newline='') as file:
+        writer = csv.writer(file)
+        writer.writerow(flattened_data)
+    print("Flattened data saved as 'flattened_data.csv'")
+
     # Return the prepared data for neural encoding
     return flattened_data, otsu_threshold, lower_threshold, upper_threshold
 
@@ -57,13 +64,4 @@ if __name__ == "__main__":
     print(f"Otsu Threshold: {otsu_threshold}")
     print(f"Canny Thresholds -> Lower: {lower_threshold}, Upper: {upper_threshold}")
     print(f"Prepared Data (Flattened) for Neural Encoding: {prepared_data[:10]}...")  # Show a small part of the data 
-
-    import csv
-
-# Save flattened data as a .csv file
-with open('flattened_data.csv', mode='w', newline='') as file:
-    writer = csv.writer(file)
-    writer.writerow('flattened_data')
-print("Flattened data saved as 'flattened_data.csv'")
-
 
